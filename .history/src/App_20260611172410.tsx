@@ -648,8 +648,6 @@ export const App: React.FC = () => {
             onPaintCell={handlePaintCell}
             onToggleEdge={handleToggleEdge}
             isPaintingMode={activeTool.type !== 'select'}
-            activeToolType={activeTool.type}
-            activeWallType={activeTool.type === 'wall' ? (activeTool.value as EdgeType) : undefined}
           />
 
           <div className="coord-display">
