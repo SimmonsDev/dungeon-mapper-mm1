@@ -1,0 +1,480 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+  --bg-color: #050505;
+  --bg-panel: #111111;
+  --bg-panel-header: #1a1a1a;
+  --border-color: #333333;
+  --text-color: #e0e0e0;
+  
+  /* EGA Colors */
+  --ega-green: #39ff14; /* Neon green / glow */
+  --ega-green-dim: #1ea00d;
+  --ega-green-glow: rgba(57, 255, 20, 0.25);
+  
+  --ega-amber: #ffb000; /* Amber glow */
+  --ega-amber-glow: rgba(255, 176, 0, 0.25);
+  
+  --ega-blue: #002b5c;
+  --ega-cyan: #00ffff;
+  --ega-red: #ff3333;
+  --ega-magenta: #ff00ff;
+  
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-terminal: 'VT323', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-terminal);
+  font-size: 1.2rem;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0d0d;
+  border-left: 1px solid var(--border-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border: 1px solid #111;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ega-green-dim);
+}
+
+/* CRT Screen Effect Overlay */
+.crt-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--bg-color);
+}
+
+.crt-effect {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+}
+
+.crt-flicker {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  opacity: 0.15;
+  background-color: rgba(57, 255, 20, 0.015);
+  animation: crt-flicker-anim 0.15s infinite;
+}
+
+@keyframes crt-flicker-anim {
+  0% { opacity: 0.15; }
+  50% { opacity: 0.18; }
+  100% { opacity: 0.15; }
+}
+
+/* Retro App Container Layout */
+.app-header {
+  height: 60px;
+  background-color: var(--bg-panel-header);
+  border-bottom: 2px solid var(--ega-green);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 0 10px var(--ega-green-glow);
+}
+
+.app-title {
+  font-family: var(--font-pixel);
+  font-size: 1.1rem;
+  color: var(--ega-green);
+  text-shadow: 0 0 5px var(--ega-green-glow);
+  letter-spacing: 2px;
+}
+
+.app-layout {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 300px;
+  background-color: var(--bg-panel);
+  border-right: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebar.right {
+  border-right: none;
+  border-left: 2px solid var(--border-color);
+}
+
+.sidebar-section {
+  border-bottom: 2px solid var(--border-color);
+  padding: 15px;
+}
+
+.sidebar-title {
+  font-family: var(--font-pixel);
+  font-size: 0.8rem;
+  color: var(--ega-amber);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Grid Area Layout */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #080808;
+  padding: 20px;
+  overflow: auto;
+  position: relative;
+}
+
+/* Retro Buttons */
+.btn {
+  background-color: #1a1a1a;
+  border: 2px solid var(--border-color);
+  color: var(--text-color);
+  font-family: var(--font-terminal);
+  font-size: 1.2rem;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--ega-green);
+  color: var(--ega-green);
+  box-shadow: 0 0 8px var(--ega-green-glow);
+  background-color: #0c1a0c;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  border-color: var(--ega-green);
+  color: var(--ega-green);
+  box-shadow: 0 0 5px var(--ega-green-glow);
+}
+
+.btn-primary:hover {
+  background-color: var(--ega-green);
+  color: #000 !important;
+}
+
+.btn-amber {
+  border-color: var(--ega-amber);
+  color: var(--ega-amber);
+}
+
+.btn-amber:hover {
+  background-color: var(--ega-amber);
+  color: #000 !important;
+  box-shadow: 0 0 8px var(--ega-amber-glow);
+}
+
+.btn-red {
+  border-color: var(--ega-red);
+  color: var(--ega-red);
+}
+
+.btn-red:hover {
+  background-color: var(--ega-red);
+  color: #ffffff !important;
+  box-shadow: 0 0 8px rgba(255, 51, 51, 0.4);
+}
+
+/* Select and Input controls */
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background-color: #0a0a0a;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-family: var(--font-terminal);
+  font-size: 1.2rem;
+  padding: 8px;
+  margin-top: 4px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--ega-green);
+}
+
+.form-label {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: #888;
+  display: block;
+}
+
+/* Map Grid Styles */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+  width: min(72vh, 72vw);
+  height: min(72vh, 72vw);
+  border: 3px solid var(--ega-green);
+  box-shadow: 0 0 20px var(--ega-green-glow);
+  background-color: #000;
+  position: relative;
+  user-select: none;
+}
+
+.grid-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dotted #222;
+  cursor: crosshair;
+  transition: background-color 0.05s ease;
+}
+
+.grid-cell.active-cell {
+  outline: 2px solid var(--ega-amber);
+  outline-offset: -2px;
+  z-index: 10;
+}
+
+/* Grid Coordinates display */
+.coord-display {
+  font-family: var(--font-pixel);
+  font-size: 0.8rem;
+  color: var(--ega-amber);
+  margin-top: 15px;
+  text-shadow: 0 0 4px var(--ega-amber-glow);
+}
+
+/* Wall Edges */
+.edge-n, .edge-s, .edge-e, .edge-w {
+  position: absolute;
+  z-index: 5;
+}
+
+/* Horizontal walls (N, S) */
+.edge-n {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+.edge-s {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+/* Vertical walls (E, W) */
+.edge-e {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 3px;
+}
+.edge-w {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+}
+
+/* Wall edge type colors and patterns */
+.wall-solid { background-color: var(--ega-green); box-shadow: 0 0 3px var(--ega-green-glow); }
+.wall-door { background-color: var(--ega-amber); }
+.wall-secret { 
+  background-image: linear-gradient(90deg, var(--ega-magenta) 50%, transparent 50%);
+  background-size: 6px 100%;
+}
+.wall-secret.edge-e, .wall-secret.edge-w {
+  background-image: linear-gradient(0deg, var(--ega-magenta) 50%, transparent 50%);
+  background-size: 100% 6px;
+}
+.wall-gate {
+  background-image: linear-gradient(90deg, var(--ega-cyan) 30%, transparent 30%);
+  background-size: 4px 100%;
+}
+.wall-gate.edge-e, .wall-gate.edge-w {
+  background-image: linear-gradient(0deg, var(--ega-cyan) 30%, transparent 30%);
+  background-size: 100% 4px;
+}
+.wall-window {
+  background-color: #ff3366;
+  opacity: 0.8;
+}
+
+/* Interactive Edge Hovers (Allows direct clicking to toggle walls) */
+.edge-trigger {
+  position: absolute;
+  z-index: 8;
+  background-color: transparent;
+  transition: background-color 0.1s ease;
+  cursor: pointer;
+}
+
+.edge-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.edge-trigger-n { top: -2px; left: 6px; right: 6px; height: 8px; }
+.edge-trigger-s { bottom: -2px; left: 6px; right: 6px; height: 8px; }
+.edge-trigger-e { right: -2px; top: 6px; bottom: 6px; width: 8px; }
+.edge-trigger-w { left: -2px; top: 6px; bottom: 6px; width: 8px; }
+
+/* Palette Grid Items */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tool-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #141414;
+  border: 1px solid var(--border-color);
+  padding: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 1.1rem;
+}
+
+.tool-item:hover {
+  border-color: var(--ega-green);
+  background-color: #0c1a0c;
+}
+
+.tool-item.active {
+  border-color: var(--ega-green);
+  background-color: #112a11;
+  color: var(--ega-green);
+  box-shadow: 0 0 5px var(--ega-green-glow);
+}
+
+.tool-color-box {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #000;
+}
+
+/* Overlay message (Keyboard shortcuts and help) */
+.hotkey-legend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  font-size: 0.95rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+.hotkey-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.key-cap {
+  background-color: #222;
+  border: 1px solid #444;
+  color: var(--ega-amber);
+  padding: 1px 5px;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  border-radius: 3px;
+}
+
+/* Modal styles for map creation / imports */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: var(--bg-panel);
+  border: 2px solid var(--ega-green);
+  box-shadow: 0 0 20px var(--ega-green-glow);
+  width: 450px;
+  padding: 25px;
+  position: relative;
+}
+
+.modal-title {
+  font-family: var(--font-pixel);
+  font-size: 0.9rem;
+  color: var(--ega-green);
+  margin-bottom: 20px;
+  text-shadow: 0 0 4px var(--ega-green-glow);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
