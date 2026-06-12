@@ -508,10 +508,16 @@ body {
   gap: 8px;
   background-color: #141414;
   border: 1px solid var(--border-color);
+  color: #e9e5db;
+  font-family: var(--font-terminal);
   padding: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
   font-size: 1.1rem;
+}
+
+.tool-item span {
+  color: inherit;
 }
 
 .tool-item:hover {
